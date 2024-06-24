@@ -1,20 +1,41 @@
-pragma solidity >=0.7.0
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.18;
 
-Contract Example {
-    Struct Car {
-        uint door;
-        uint engineSize;
-        uint wheels;
-        string color;
-        string 
+contract Example {
+
+    address owner;
+
+    struct Counter {
+        uint number;
+        string desc;
     }
 
-    Strut Carpet {
-        string name;
-        uint length;
-        unit width;
-        bool shipped;
+    Counter counter;
+ 
+    modifier onlyOwner  {
+        require(msg.sender == owner, "Only the owner can increment or decrement the counter");
+        _;
     }
 
-    
+    constructor (uint inital_value, string memory description){
+        owner = msg.sender;
+        counter = Counter(inital_value, description);
+    }
+
+
+    function increment_counter() external onlyOwner {
+        counter.number += 1;
+    }
+
+    function decrement_counter() external onlyOwner {
+        counter.number -= 1;
+    }
+
+    function get_counter_number() external view returns (uint){
+        return counter.number;
+    }
+
+    function get_counter_desc() external view returns ( string memory ){
+        return counter.desc;
+    }
 }
